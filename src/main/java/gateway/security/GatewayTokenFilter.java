@@ -2,8 +2,6 @@ package gateway.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -11,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-
-import java.io.InputStream;
 
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.setResponseStatus;
 
@@ -35,7 +31,7 @@ public class GatewayTokenFilter extends AbstractGatewayFilterFactory<GatewayToke
                 String token = header.replace(jwtConfig.getPrefix(), "");
 
                 Claims claims = Jwts.parser()
-                        .setSigningKey(jwtConfig.getSecret())
+                        .setSigningKey(jwtConfig.getSecret().getBytes())
                         .parseClaimsJws(token)
                         .getBody();
 
@@ -45,8 +41,10 @@ public class GatewayTokenFilter extends AbstractGatewayFilterFactory<GatewayToke
                     return exchange.getResponse().setComplete();
                 }
 
+                String uid = claims.get("userId", String.class);
+
                 ServerHttpRequest request = exchange.getRequest().mutate().
-                        header("username", username).build();
+                        header("uid", uid).build();
 
                 return chain.filter(exchange.mutate().request(request).build());
 
@@ -65,7 +63,6 @@ public class GatewayTokenFilter extends AbstractGatewayFilterFactory<GatewayToke
         return new Config();
     }
 
-    @Data
     public static class Config{
         //fields
     }

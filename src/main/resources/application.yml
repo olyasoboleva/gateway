@@ -10,6 +10,13 @@ spring:
         - id: auth
           uri: http://localhost:8090
           predicates:
-            - Path=/auth/signup, /auth/auth, /auth/kek
+            - Path=/auth/signup, /auth/auth
           filters:
             - StripPrefix=1
+        - id: test
+          uri: http://localhost:8091
+          predicates:
+            - Path=/test/kek
+          filters:
+            - StripPrefix=1
+            - GatewayTokenFilter
