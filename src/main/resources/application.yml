@@ -13,21 +13,26 @@ spring:
             - Path=/auth/signup/attendee, /auth/signup/organization, /auth/auth
           filters:
             - StripPrefix=1
-        - id: test
+        - id: event_auth
           uri: http://localhost:8091
           predicates:
-            - Path=/test/**
+            - Path=/event/save/organization
           filters:
             - StripPrefix=1
-            - GatewayTokenFilter
-        - id: event_auth
+        - id: chat_auth
+          uri: http://localhost:8092
+          predicates:
+            - Path=/chat/add/attendee
+          filters:
+            - StripPrefix=1
+        - id: event
           uri: http://localhost:8091
           predicates:
             - Path=/event/**
           filters:
             - StripPrefix=1
             - GatewayTokenFilter
-        - id: chat_auth
+        - id: chat
           uri: http://localhost:8092
           predicates:
             - Path=/chat/**
