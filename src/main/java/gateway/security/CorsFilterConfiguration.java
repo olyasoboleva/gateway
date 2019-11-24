@@ -23,6 +23,7 @@ public class CorsFilterConfiguration {
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedMethod(HttpMethod.POST);
         config.addAllowedMethod(HttpMethod.GET);
+        config.addAllowedMethod(HttpMethod.PATCH);
         config.addExposedHeader("Authorization");
         source.registerCorsConfiguration("/**", config);
         return source;

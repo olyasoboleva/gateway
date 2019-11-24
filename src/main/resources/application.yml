@@ -22,7 +22,7 @@ spring:
         - id: chat_auth
           uri: http://localhost:8092
           predicates:
-            - Path=/chat/add/attendee
+            - Path=/chat/save/attendee
           filters:
             - StripPrefix=1
         - id: event
