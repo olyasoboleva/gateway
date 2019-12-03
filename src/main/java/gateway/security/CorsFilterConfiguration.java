@@ -24,7 +24,9 @@ public class CorsFilterConfiguration {
         config.addAllowedMethod(HttpMethod.POST);
         config.addAllowedMethod(HttpMethod.GET);
         config.addAllowedMethod(HttpMethod.PATCH);
+        config.addAllowedMethod(HttpMethod.DELETE);
         config.addExposedHeader("Authorization");
+        config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
     }

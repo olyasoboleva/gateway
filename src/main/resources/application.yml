@@ -39,3 +39,7 @@ spring:
           filters:
             - StripPrefix=1
             - GatewayTokenFilter
+        - id: websocket
+          uri: http://localhost:8092
+          predicates:
+            - Path=/ws/**
